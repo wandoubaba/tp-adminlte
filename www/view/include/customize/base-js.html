@@ -1,0 +1,248 @@
+<script type="text/javascript">
+/**
+ * 本站自定义js方法
+ * 依赖jquery, axios, layer, bootstrap等
+ */
+
+/**
+ * 前端执行页面跳转
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-16
+ * @param  {[type]}   url 要跳转到的url，绝对或相对
+ * @param  {[type]}   top 布尔值，默认为false，为true时表示执行顶组框架跳转
+ * @return {[type]}       无返回值
+ */
+function jump(url, is_top) {
+  is_top = typeof is_top !== 'undefined' ? Boolean(is_top) : false
+  if (is_top) {
+    top.location.href = url
+  } else {
+    location.href = url
+  }
+}
+
+/**
+ * 新端刷新页面，可以是父页
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-16
+ * @param  {[type]}   parent 布尔值，默认为true，即刷新父页
+ * @return {[type]}          无返回值
+ */
+function refresh(is_parent) {
+  is_parent = typeof is_parent !== 'undefined' ? Boolean(is_parent) : true
+  if (is_parent) {
+    parent.location.reload()
+  } else {
+    location.reload()
+  }
+}
+
+/**
+ * 基于axios：向后台提交ajax请求（axios）并在成功后跳至另一页
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-02
+ * @param  {[type]}   action_url  [请求的url]
+ * @param  {[type]}   data        [传递的参数]
+ * @param  {[type]}   callback    [请求成功且取得正确的数据后需要执行的操作，可以是匿名函数function () {}]
+ * @param  {[type]}   hold_second [layer提示框的停留时间单位秒]
+ * @return {[type]}               [description]
+ */
+function ajax_post(action_url, data, callback, hold_second) {
+  // hold_second如果不传则默认为3
+  hold_second = typeof hold_second !== 'undefined' ? hold_second : 3
+  axios.post(
+    action_url,
+    data
+  ).then(function (response) {
+    let res = response.data
+    // console.log(response)
+    if (res.status) {
+      layer.msg(res.result, {
+        icon: 6,
+        time: hold_second * 1000, //3秒关闭（如果不配置，默认是3秒）
+        shade: 0.5
+      }, function () {
+        // 如果未定义callback则直接刷新父页
+        if (typeof callback !== 'undefined') {
+          callback()
+        } else {
+          refresh()
+        }
+      })
+    } else {
+      layer.msg(res.result, {
+        icon: 5,
+        time: hold_second * 1000,
+        shade: 0.5
+      })
+    }
+  }).catch(function (error) {
+    console.log(error)
+  })
+}
+
+/**
+ * 执行录出登录动作
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-03
+ * @return {[type]}   [description]
+ */
+function logout(need_confirm) {
+  need_confirm = typeof need_confirm !== 'undefined' ? Boolean(need_confirm) : true
+  if (need_confirm) {
+    layer.confirm('确定要退出登录吗？', {
+      icon: 3,
+      title: '请确认',
+      skin: 'layui-layer-lan'
+    }, function () {
+      ajax_post(
+        '{:url("do_logout", [], ACTION_SUFFIX)}',
+        {},
+        function () {
+          jump('{:url("login")}', true)
+        },
+        2
+      )
+    })
+  } else {
+     ajax_post(
+      '{:url("do_logout", [], ACTION_SUFFIX)}',
+      {},
+      function () {
+        jump('{:url("login")}', true)
+      },
+      1
+    )   
+  }
+}
+
+/**
+ * 在iframe页内让父框架中的iframe高度适应内容
+ * 在iframe页内调用此方法
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-20
+ * @param  {[type]}   iframe_obj [指定父框架中的iframe对象集合，如果未定义则设置父框架内所有iframe]
+ * @param  {[type]}   default_height [如果设置失败或适配高度过小时使用默认高度]
+ */
+function set_parent_iframe_height(iframe_obj, default_height) {
+  if (self.frameElement && self.frameElement.tagName == "IFRAME") {
+    default_height = typeof default_height !== 'undefined' ? default_height : 400
+    iframe_height = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.clientHeight,
+      default_height
+    )
+    if (typeof iframe_obj !== 'undefined') {
+      iframe_obj.height = iframe_height
+    } else {
+      Array.from(parent.document.getElementsByTagName('iframe')).forEach(function (current, index, arr) {
+        current.height = iframe_height
+      })
+    }
+  }
+}
+
+/**
+ * 基于jquery、bootstrap：在iframe内调用此方法关闭modal弹层
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-11
+ * @return {[type]}   [description]
+ */
+function modal_close() {
+  window.parent.$('.modal').modal('hide')
+}
+
+/**
+ * 基于jquery, bootstrap：创建并显示bootstrap模态框，id为automodal
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-11
+ * @param  {[type]}   title              设置模态框显示的标题
+ * @param  {[type]}   url                设置模态框要加载的url
+ * @param  {[type]}   iframe_height_plus 让iframe高度在识别基础上增加多少
+ * @return {[type]}                      [description]
+ */
+function modal_show_iframe(title, url, iframe_height_plus) {
+  if ($('#automodal').length > 0) {
+    var modal_obj = $('#automodal')
+    modal_obj.empty()
+    modal_obj.removeClass('modal fade')
+  } else {
+    var modal_obj = $('<div></div>')
+    modal_obj.attr('id', 'automodal')
+  }
+  modal_obj.attr({
+    'role': 'dialog',
+    'aria-labelledby': 'modalLabel'
+  }).addClass('modal fade')
+  // .modal-dialog节点
+  var modal_dialog = $('<div></div>')
+  modal_dialog.attr({'aria-hidden': 'true'}).addClass('modal-dialog modal-xl')
+  // .modal-content节点
+  var modal_content = $('<div></div>')
+  modal_content.addClass('modal-content')
+  // .modal-header节点
+  var modal_header = $('<div></div>')
+  modal_header.addClass('modal-header')
+  // .modal-title节点，appendTo(modal_header)
+  var modal_title = $('<h5></h5>')
+  modal_title.attr({
+    'id': 'modalLabel'
+  }).addClass('modal-title')
+  .text(title)
+  .appendTo(modal_header)
+  // 右上角关闭按钮节点，appendTo(modal_header)
+  var close_button = $('<button></button>')
+  close_button.attr({
+    'type': 'button',
+    'data-dismiss': 'modal',
+    'aria-hidden': 'true'
+  }).addClass("close").append('<span aria-hidden="true">&times;</span>').appendTo(modal_header)
+  // .modal_body节点
+  var modal_body = $('<div></div>')
+  modal_body.addClass('modal-body')
+  // 最被显示loading圆圈
+  modal_body.html('<div class="d-flex justify-content-center">\
+      <div class="spinner-border text-primary" role="status">\
+        <span class="sr-only">Loading...</span>\
+      </div>\
+    </div>')
+  // iframe节点，appendTo(modal_body)
+  var iframe = $('<iframe></iframe>')
+  iframe.attr({
+    'id': 'modal-iframe',
+    'name': 'modal-iframe',
+    'width': '100%',
+    'frameborder': '0'
+    // 'src': url
+  })
+  // 把modal_header和modal_body节点append到modal_content中，再把modal_content节点appendTo(modal_dialog)
+  modal_content.append(modal_header).append(modal_body).appendTo(modal_dialog)
+  // 把modal_dialog节点appendTo(modal_obj)
+  modal_dialog.appendTo(modal_obj)
+  // 把modal_obj节点append到$("body")中
+  $('body').append(modal_obj)
+  // 当show方法被调用时，给iframe的src属性赋值
+  modal_obj.on('show.bs.modal', function () {
+    // dosomething
+  })
+  // 当show方法执行完毕后，给iframe的src属性赋值
+  modal_obj.on('shown.bs.modal', function () {
+    modal_body.empty()
+    iframe.appendTo(modal_body)
+    iframe.attr('src', url)
+  })
+  // 当hide方法调用时删除iframe的src属性
+  modal_obj.on('hide.bs.modal', function () {
+    modal_obj.find('iframe#modal-iframe').removeAttr('src')
+  })
+  // 当hide方法执行完毕后将元素清空并销毁
+  modal_obj.on('hidden.bs.modal', function () {
+    // modal_obj.empty()
+    modal_obj.remove()
+  })
+  // 所有准备工作做完，显示modal
+  modal_obj.modal('show')
+}
+
+</script>
