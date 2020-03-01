@@ -46,6 +46,9 @@ abstract class BaseController
         $this->app     = $app;
         $this->request = $this->app->request;
 
+        // 加载附加配置文件
+        \think\facade\Config::load('extra/config', 'extra_config');
+
         // 控制器初始化
         $this->initialize();
     }
