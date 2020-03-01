@@ -15,3 +15,17 @@ Route::get('think', function () {
 });
 
 Route::get('hello/:name', 'index/hello');
+
+// 首页 <domain>
+Route::rule('/', function () {
+    // 自动跳转到登录页
+    return redirect((string) url('login'));
+});
+
+/**
+ * 虚拟分组，强制所有url必须以.html后缀结尾
+ */
+Route::group(function () {
+    // 登录页 <domain>/login.html
+    Route::rule('login', 'login/index');
+})->ext('html');
