@@ -27,5 +27,7 @@ Route::rule('/', function () {
  */
 Route::group(function () {
     // 登录页 <domain>/login.html
-    Route::rule('login', 'login/index');
+    Route::rule('login', 'sign/login');
+    // 注册页 <domain>/register.html
+    Route::rule('register', 'sign/register');
 })->ext('html');

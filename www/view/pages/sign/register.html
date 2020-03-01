@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>注册账号 | {$Think.config.extra_config.app_name}</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  {include file="include/font-awesome/font-awesome-free-css" /}
+  <!-- page loading -->
+  {include file="include/customize/preloading-js" /}
+  <!-- Ionicons -->
+  {include file="include/ionicons/ionicons4-css" /}
+  <!-- icheck bootstrap -->
+  {include file="include/icheck-bootstrap/icheck-bootstrap-css" /}
+  <!-- Theme style -->
+  {include file="include/adminlte/adminlte3-css" /}
+  <!-- Google Font: Source Sans Pro -->
+  {include file="include/google-font/google-font-css" /}
+  <!-- customized style -->
+  {include file="include/customize/base-css" /}
+</head>
+<body class="hold-transition register-page">
+<div class="register-box">
+  <div class="register-logo">
+    <a href="../../index2.html">{$Think.config.extra_config.app_name}</a>
+  </div>
+
+  <div class="card">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">注册新账号</p>
+
+      <form action="../../index.html" method="post">
+        <div class="input-group mb-3">
+          <input type="tel" class="form-control" placeholder="手机号">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-phone"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="电子邮件">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="密码">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="再输入一次密码">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+              <label for="agreeTerms">
+                我同意 <a href="#">服务条款</a>
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">注册</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+      <p class="mt-3 mb-1">
+        <a href="login.html">已有账号，去登录</a>
+      </p>
+    </div>
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
+
+<!-- sign footer -->
+{include file="include/pagepart/sign-footer" /}
+
+<!-- BEGIN JS -->
+<!-- axios -->
+{include file="include/axios/axios-js" /}
+<!-- jQuery -->
+{include file="include/jquery/jquery-slim-js" /}
+<!-- Bootstrap 4 -->
+{include file="include/bootstrap/bootstrap4-js" /}
+<!-- AdminLTE App -->
+{include file="include/adminlte/adminlte3-js" /}
+<!-- customized js -->
+{include file="include/customize/base-js" /}
+<!-- END JS -->
+</body>
+</html>

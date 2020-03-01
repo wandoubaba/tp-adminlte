@@ -3,18 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>请登录 | TP & AdminLTE</title>
+  <title>请登录 | {$Think.config.extra_config.app_name}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- Font Awesome -->
   {include file="include/font-awesome/font-awesome-free-css" /}
+  <!-- page loading -->
+  {include file="include/customize/preloading-js" /}
   <!-- Ionicons -->
   {include file="include/ionicons/ionicons4-css" /}
   <!-- icheck bootstrap -->
   {include file="include/icheck-bootstrap/icheck-bootstrap-css" /}
   <!-- Theme style -->
-  <!-- <link rel="stylesheet" href="../../dist/css/adminlte.min.css"> -->
   {include file="include/adminlte/adminlte3-css" /}
   <!-- Google Font: Source Sans Pro -->
   {include file="include/google-font/google-font-css" /}
@@ -24,7 +25,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html">TP & AdminLTE</a>
+    <a href="../../index2.html">{$Think.config.extra_config.app_name}</a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
@@ -64,27 +65,31 @@
           <!-- /.col -->
         </div>
       </form>
-      <p class="mb-1">
+      <p class="mt-3 mb-1">
         <a href="forgot-password.html">忘记密码？</a>
       </p>
-      <p class="mb-0">
-        <a href="register.html" class="text-center">注册新账号</a>
+      <p class="mb-1">
+        <a href="register.html">注册新账号</a>
       </p>
     </div>
     <!-- /.login-card-body -->
   </div>
 </div>
 <!-- /.login-box -->
-<footer class="fixed-bottom navbar navbar-light bg-light">
-  <div>版权信息</div>
-  <div>版本号</div>
-</footer>
+<!-- sign footer -->
+{include file="include/pagepart/sign-footer" /}
+
+<!-- BEGIN JS -->
+<!-- axios -->
+{include file="include/axios/axios-js" /}
 <!-- jQuery -->
 {include file="include/jquery/jquery-slim-js" /}
 <!-- Bootstrap 4 -->
 {include file="include/bootstrap/bootstrap4-js" /}
 <!-- AdminLTE App -->
 {include file="include/adminlte/adminlte3-js" /}
-
+<!-- customized js -->
+{include file="include/customize/base-js" /}
+<!-- END JS -->
 </body>
 </html>

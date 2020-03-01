@@ -82,41 +82,6 @@ function ajax_post(action_url, data, callback, hold_second) {
 }
 
 /**
- * 执行录出登录动作
- * @author aaron<chenqiang@h024.cn>
- * @date   2019-12-03
- * @return {[type]}   [description]
- */
-function logout(need_confirm) {
-  need_confirm = typeof need_confirm !== 'undefined' ? Boolean(need_confirm) : true
-  if (need_confirm) {
-    layer.confirm('确定要退出登录吗？', {
-      icon: 3,
-      title: '请确认',
-      skin: 'layui-layer-lan'
-    }, function () {
-      ajax_post(
-        '{:url("do_logout", [], ACTION_SUFFIX)}',
-        {},
-        function () {
-          jump('{:url("login")}', true)
-        },
-        2
-      )
-    })
-  } else {
-     ajax_post(
-      '{:url("do_logout", [], ACTION_SUFFIX)}',
-      {},
-      function () {
-        jump('{:url("login")}', true)
-      },
-      1
-    )   
-  }
-}
-
-/**
  * 在iframe页内让父框架中的iframe高度适应内容
  * 在iframe页内调用此方法
  * @author aaron<chenqiang@h024.cn>
