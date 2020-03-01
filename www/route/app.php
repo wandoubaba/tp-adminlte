@@ -30,4 +30,8 @@ Route::group(function () {
     Route::rule('login', 'sign/login');
     // 注册页 <domain>/register.html
     Route::rule('register', 'sign/register');
+    // 忘记密码 <domain>/forgot-password
+    Route::rule('forgot-password', 'sign/forgotPassword');
+    // 重设密码 <domain>/recover-password
+    Route::rule('recover-password', 'sign/recoverPassword');
 })->ext('html');

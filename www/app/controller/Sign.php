@@ -31,4 +31,26 @@ class Sign extends BaseController
     {
         return View::fetch('pages/sign/register');
     }
+
+    /**
+     * forgot-password page
+     * @author aaron<chenqiang@h024.cn>
+     * @date   2020-03-01
+     * @return [type]     [description]
+     */
+    public function forgotPassword()
+    {
+        return View::fetch('pages/sign/forgot-password');
+    }
+
+    /**
+     * recover-password page
+     * @author aaron<chenqiang@h024.cn>
+     * @date   2020-03-01
+     * @return [type]     [description]
+     */
+    public function recoverPassword()
+    {
+        return View::fetch('pages/sign/recover-password');
+    }
 }
