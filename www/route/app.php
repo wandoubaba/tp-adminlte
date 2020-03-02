@@ -34,4 +34,13 @@ Route::group(function () {
     Route::rule('forgot-password', 'sign/forgotPassword');
     // 重设密码 <domain>/recover-password
     Route::rule('recover-password', 'sign/recoverPassword');
+    // 登录后的页面 <domain>/logged/...
+    Route::group('logged', function () {
+        // 控制台首页 index.html
+        Route::rule('index', 'logged.pages/index');
+        // 空白面板页 blank.html
+        Route::rule('blank', 'logged.pages/blank');
+        // 表格示例页 table.html
+        Route::rule('table', 'logged.pages/table');
+    });
 })->ext('html');

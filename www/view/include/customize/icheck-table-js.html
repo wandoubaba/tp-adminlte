@@ -1,0 +1,77 @@
+<!-- 
+  icheck控件功能初始化js，供所有包含icheck控制的页面引入
+  依赖jQuery、iCheck
+-->
+<script>
+$(function () {
+  // 初始化icheck复选框
+  iCheckInit()
+  // 表格标题行复选框实现全选
+  iCheckTableCheckAll()
+  // 表格行前的复选框被选中时给表格行添加样式
+  iCheckTableLineStyle()
+  // 当表格行内部被点击时切换表格行前的复选框的选中状态
+  // iCheckTableLineChecker()
+})
+
+/**
+ * iCheck控件样式初始化
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-02
+ * @return {[type]}   [description]
+ */
+function iCheckInit() {
+  $('input').iCheck({
+    checkboxClass:'icheckbox_square-blue'
+  })
+}
+
+/**
+ * 在包含iCheck控件的表格中实现#checkAll的全选/全不选
+ * 需要表头iCheck具有id="all-checker"属性
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-02
+ * @return {[type]}   [description]
+ */
+function iCheckTableCheckAll() {
+  $('#all-checker').on('ifChanged', function(event) {
+    let checkVal = $(this).prop('checked') ? 'check' : 'uncheck'
+    $(this).parents('table').find('tbody').find('tr').each(function (index, element) {
+      $(element).first('input[type="checkbox"]').iCheck(checkVal)
+    })
+  })
+}
+
+/**
+ * 当iCheck被选中时实现整行变色
+ * 需要数据行iCheck控件具有name="line-checker"属性
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-02
+ * @return {[type]}   [description]
+ */
+function iCheckTableLineStyle() {
+  $('[name="line-checker"]').on('ifChanged', function(event) {
+    let lineClass = 'table-warning'
+    let line = $(this).parents('tr')
+    if ($(this).prop('checked')) {
+      line.addClass(lineClass)
+    } else {
+      line.removeClass(lineClass)
+    }
+  })
+}
+
+/**
+ * 实现点击数据行时自动切换行首iCheck的选中状态
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-02
+ * @return {[type]}   [description]
+ */
+function iCheckTableLineChecker() {
+  $('#mainTable tbody tr').on('click', function() {
+    let checkbox = $(this).find('[name="lineChecker"]')
+    let toCheckVal = checkbox.prop('checked') ? 'uncheck' : 'check'
+    checkbox.iCheck(toCheckVal)
+  })
+}
+</script>

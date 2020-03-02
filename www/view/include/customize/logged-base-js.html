@@ -1,0 +1,28 @@
+<!--
+  控制台页面公共js，被所有控制台页面引入
+  依赖jQuery
+-->
+<script type="text/javascript">
+
+$(function () {
+  // 导航菜单定位到当前页
+  currentMenu()
+})
+
+/**
+ * 创建左侧导航菜单的树级结构
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-16
+ * @return {[type]}   [description]
+ */
+function currentMenu() {
+  let pathname = window.location.pathname
+  $(".main-sidebar a.nav-link").each(function(){
+    if ($(this).attr('href') == pathname) {
+      $(this).addClass('active').
+        parents('.has-treeview').addClass('menu-open').
+        find('a.nav-link:first').addClass('active')
+    }
+  });
+}
+</script>

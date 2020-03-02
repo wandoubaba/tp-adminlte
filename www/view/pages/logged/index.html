@@ -1,0 +1,20 @@
+{extend name="/pages/logged/template/main" /}
+{block name="breadcrumb"}
+<!-- 首页中不显示面包屑导航，所以要将breadcrumb_path块内容清空 -->
+{/block}
+
+{block name="content"}
+<!-- Default box -->
+<div class="card">
+  <div class="card-body">
+    欢迎使用 {$Think.config.extra_config.app_name}！
+  </div>
+</div>
+<!-- /.card -->
+{/block}
+
+{block name="css"}
+{/block}
+
+{block name="js"}
+{/block}

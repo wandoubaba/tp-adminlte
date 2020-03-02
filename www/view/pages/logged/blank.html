@@ -1,0 +1,40 @@
+{extend name="/pages/logged/template/main" /}
+{block name="breadcrumb"}
+<!-- 首页中不显示面包屑导航，所以要将breadcrumb_path块内容清空 -->
+  <ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{:url('logged/index')}">控制台首页</a></li>
+    <li class="breadcrumb-item active">{$pagetitle|default=""}</li>
+  </ol>
+{/block}
+
+{block name="content"}
+  <!-- Default box -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">面板标题栏</h3>
+      
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="收起">
+          <i class="fas fa-minus"></i></button>
+        <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="关闭（数据不会丢失）">
+          <i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    
+    <div class="card-body">
+      面板内容
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+      面板底栏
+    </div>
+    <!-- /.card-footer-->
+  </div>
+  <!-- /.card -->
+{/block}
+
+{block name="css"}
+{/block}
+
+{block name="js"}
+{/block}
