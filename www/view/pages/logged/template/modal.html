@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>
+    {present name="pagetitle"}
+    {$pagetitle|default=""} | 
+    {/present}
+    {$Think.config.extra_config.app_name}
+  </title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  {include file="include/font-awesome/font-awesome-free-css" /}
+  <!-- 加载中…… -->
+  {include file="include/customize/preloading-js" /}
+  <!-- Ionicons -->
+  {include file="include/ionicons/ionicons4-css" /}
+  <!-- Theme style -->
+  {include file="include/adminlte/adminlte3-css" /}
+  <!-- Google Font: Source Sans Pro -->
+  {include file="include/google-font/google-font-css" /}
+  <!-- base css -->
+  {include file="include/customize/base-css" /}
+  <!-- page css -->
+  {block name="css"}{/block}
+</head>
+<body class="hold-transition">
+  <!-- 把后端传入的$pagetitle保存在页面上 -->
+  <input type="hidden" id="pageTitle" value="{$pagetitle|default=''}">
+  <div class="container-fluid">
+{block name="body"}
+    <!-- Horizontal Form -->
+    <!-- form start -->
+    <form class="form-horizontal">
+      <div class="form-group row">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+          <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="offset-sm-2 col-sm-10">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="option1">
+            <label for="customCheckbox1" class="custom-control-label">Custom Checkbox</label>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <button type="submit" class="btn btn-primary">Sign in</button>
+        <button class="btn btn-default ml-3" onclick="modalClose()">关闭</button>
+      </div>
+    </form>
+{/block}
+    <div class="card mt-3 bg-light">
+      <div class="card-header">
+        <h4 class="card-title font-weight-bold">操作说明</h4>
+      </div>
+      <div class="card-body">
+        {block name="card"}暂无操作说明{/block}
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+
+<!-- jQuery, Bootstrap, jqueryValidate -->
+{include file="include/jquery/jquery-slim-js" /}
+<!-- jquery-validate -->
+{include file="include/jquery-validate/jquery-validate-js" /}
+<!-- AdminLTE App -->
+{include file="include/adminlte/adminlte3-js" /}
+<!-- axios -->
+{include file="include/axios/axios-js" /}
+<!-- layer -->
+{include file="include/layer/layer-js" /}
+<!-- common js -->
+{include file="include/customize/base-js" /}
+<!-- modal js -->
+{include file="include/customize/modal-js" /}
+<script type="text/javascript">
+  $(document).ready(function () {
+    // 设置modal标题
+    var pagetitle = $('#pageTitle').val()
+    setModalTitle(pagetitle)
+  })
+  $(window).ready(function () {
+    setParentIFrameHeight(parent.document.getElementById('modalIFrame'))
+  }).resize(function () {
+    setParentIFrameHeight(parent.document.getElementById('modalIFrame'))
+  })
+</script>
+<!-- page js -->
+{block name="js"}{/block}
+</body>
+</html>

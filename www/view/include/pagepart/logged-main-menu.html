@@ -4,7 +4,7 @@
          with font-awesome or any other icon font library -->
     <li class="nav-item">
       <a href="{:url('logged/index')}" class="nav-link">
-        <i class="nav-icon fas fa-home"></i>
+        <i class="nav-icon fas fa-fw fa-home"></i>
         <p>
           控制台首页
         </p>
@@ -12,7 +12,7 @@
     </li>
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-tachometer-alt"></i>
+        <i class="nav-icon fas fa-fw fa-tachometer-alt"></i>
         <p>
           示例导航
           <i class="right fas fa-angle-left"></i>
@@ -37,9 +37,26 @@
         </li>
       </ul>
     </li>
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-fw fa-user"></i>
+        <p>
+          我的账户
+          <i class="right fas fa-angle-left"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a href="#" class="nav-link" onclick="showModalIFrame('{:url("/logged/account/change-password")}')">
+            <i class="far fa-circle nav-icon"></i>
+            <p>修改密码</p>
+          </a>
+        </li>
+      </ul>
+    </li>
     <li class="nav-item">
       <a href="{:url('/login')}" class="nav-link">
-        <i class="nav-icon fas fa-sign-out-alt"></i>
+        <i class="nav-icon fas fa-fw fa-sign-out-alt"></i>
         <p>退出登录</p>
       </a>
     </li>

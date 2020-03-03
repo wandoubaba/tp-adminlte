@@ -42,5 +42,10 @@ Route::group(function () {
         Route::rule('blank', 'logged.pages/blank');
         // 表格示例页 table.html
         Route::rule('table', 'logged.pages/table');
+        // 与账户相关页集合 <domain>/logged/account/...
+        Route::group('account', function () {
+            // 修改密码 change-password.html
+            Route::rule('change-password', 'logged.account/changePassword');
+        });
     });
 })->ext('html');

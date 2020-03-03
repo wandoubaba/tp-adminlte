@@ -22,7 +22,7 @@ function jump(url, is_top) {
 }
 
 /**
- * 新端刷新页面，可以是父页
+ * 新端刷新页面，可以指定刷新父页
  * @author aaron<chenqiang@h024.cn>
  * @date   2019-12-16
  * @param  {[type]}   parent 布尔值，默认为true，即刷新父页
@@ -47,7 +47,7 @@ function refresh(is_parent) {
  * @param  {[type]}   hold_second [layer提示框的停留时间单位秒]
  * @return {[type]}               [description]
  */
-function ajax_post(action_url, data, callback, hold_second) {
+function ajaxPost(action_url, data, callback, hold_second) {
   // hold_second如果不传则默认为3
   hold_second = typeof hold_second !== 'undefined' ? hold_second : 3
   axios.post(
@@ -82,44 +82,7 @@ function ajax_post(action_url, data, callback, hold_second) {
 }
 
 /**
- * 在iframe页内让父框架中的iframe高度适应内容
- * 在iframe页内调用此方法
- * @author aaron<chenqiang@h024.cn>
- * @date   2019-12-20
- * @param  {[type]}   iframe_obj [指定父框架中的iframe对象集合，如果未定义则设置父框架内所有iframe]
- * @param  {[type]}   default_height [如果设置失败或适配高度过小时使用默认高度]
- */
-function set_parent_iframe_height(iframe_obj, default_height) {
-  if (self.frameElement && self.frameElement.tagName == "IFRAME") {
-    default_height = typeof default_height !== 'undefined' ? default_height : 400
-    iframe_height = Math.max(
-      document.body.scrollHeight,
-      document.documentElement.scrollHeight,
-      document.documentElement.clientHeight,
-      default_height
-    )
-    if (typeof iframe_obj !== 'undefined') {
-      iframe_obj.height = iframe_height
-    } else {
-      Array.from(parent.document.getElementsByTagName('iframe')).forEach(function (current, index, arr) {
-        current.height = iframe_height
-      })
-    }
-  }
-}
-
-/**
- * 基于jquery、bootstrap：在iframe内调用此方法关闭modal弹层
- * @author aaron<chenqiang@h024.cn>
- * @date   2019-12-11
- * @return {[type]}   [description]
- */
-function modal_close() {
-  window.parent.$('.modal').modal('hide')
-}
-
-/**
- * 基于jquery, bootstrap：创建并显示bootstrap模态框，id为automodal
+ * 基于jquery, bootstrap：创建并显示bootstrap模态框，id为autoModal
  * @author aaron<chenqiang@h024.cn>
  * @date   2019-12-11
  * @param  {[type]}   title              设置模态框显示的标题
@@ -127,14 +90,14 @@ function modal_close() {
  * @param  {[type]}   iframe_height_plus 让iframe高度在识别基础上增加多少
  * @return {[type]}                      [description]
  */
-function modal_show_iframe(title, url, iframe_height_plus) {
-  if ($('#automodal').length > 0) {
-    var modal_obj = $('#automodal')
+function showModalIFrame(url, iframe_height_plus) {
+  if ($('#autoModal').length > 0) {
+    var modal_obj = $('#autoModal')
     modal_obj.empty()
     modal_obj.removeClass('modal fade')
   } else {
     var modal_obj = $('<div></div>')
-    modal_obj.attr('id', 'automodal')
+    modal_obj.attr('id', 'autoModal')
   }
   modal_obj.attr({
     'role': 'dialog',
@@ -154,7 +117,7 @@ function modal_show_iframe(title, url, iframe_height_plus) {
   modal_title.attr({
     'id': 'modalLabel'
   }).addClass('modal-title')
-  .text(title)
+  //.text(title)
   .appendTo(modal_header)
   // 右上角关闭按钮节点，appendTo(modal_header)
   var close_button = $('<button></button>')
@@ -175,7 +138,7 @@ function modal_show_iframe(title, url, iframe_height_plus) {
   // iframe节点，appendTo(modal_body)
   var iframe = $('<iframe></iframe>')
   iframe.attr({
-    'id': 'modal-iframe',
+    'id': 'modalIFrame',
     'name': 'modal-iframe',
     'width': '100%',
     'frameborder': '0'
@@ -199,7 +162,7 @@ function modal_show_iframe(title, url, iframe_height_plus) {
   })
   // 当hide方法调用时删除iframe的src属性
   modal_obj.on('hide.bs.modal', function () {
-    modal_obj.find('iframe#modal-iframe').removeAttr('src')
+    modal_obj.find('#modalIFrame').removeAttr('src')
   })
   // 当hide方法执行完毕后将元素清空并销毁
   modal_obj.on('hidden.bs.modal', function () {
