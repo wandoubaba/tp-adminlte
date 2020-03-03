@@ -10,7 +10,7 @@
 * axios版本： [0.19.2](https://github.com/axios/axios)
 * JQuery版本： [3.4.1](https://github.com/jquery/jquery)
 * Font-Awesome版本： [5.12.1](https://github.com/FortAwesome/Font-Awesome)
-* ionicons版本： 
+* ionicons版本： [4.6.3](https://github.com/ionic-team/ionicons/tree/4.x)
 * layer版本： [3.1.1](https://github.com/sentsin/layer)
 * iCheck版本： [1.0.2](https://github.com/fronteed/icheck)
 * jquery-validation版本： [1.19.1](https://github.com/jquery-validation/jquery-validation)
@@ -24,11 +24,12 @@
 
  ## 目前已实现
  * 登录、注册、找回密码等login之前的页面
- * 控制台页面
-  ** 列表示例
-  ** 面板示例
-  ** 通过bootstrap的modal实现的弹出层（以修改密码为例）
-  ** 通过layer实现的提示框（轻提示）
+ 控制台页面包括：
+
+  * 列表示例
+  * 面板示例
+  * 通过bootstrap的modal实现的弹出层（以修改密码为例）
+  * 通过layer实现的提示框（轻提示）
 
 ------
 
