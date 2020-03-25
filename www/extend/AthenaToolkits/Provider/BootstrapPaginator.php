@@ -9,14 +9,12 @@
 // | Author: zhangyajun <448901948@qq.com>
 // +----------------------------------------------------------------------
 
-namespace app\controller\common;
-
-use think\Paginator;
+namespace AthenaToolkits\Provider;
 
 /**
  * Bootstrap 分页驱动
  */
-class BootstrapPaginator extends Paginator
+class BootstrapPaginator extends \think\Paginator
 {
 
     /**

@@ -1,55 +1,76 @@
 <!-- 在modal.html模板中引入，以实现在iframe内对modal进行设置 -->
 <script>
-  /**
-   * 在iframe页内让父框架中的iframe高度适应内容
-   * 在iframe页内调用此方法
-   * @author aaron<chenqiang@h024.cn>
-   * @date   2019-12-20
-   * @param  {[type]}   iframe_obj [指定父框架中的iframe对象集合，如果未定义则设置父框架内所有iframe]
-   * @param  {[type]}   default_height [如果设置失败或适配高度过小时使用默认高度]
-   */
-  function setParentIFrameHeight(iframe_obj, default_height) {
-    if (self.frameElement && self.frameElement.tagName == "IFRAME") {
-      default_height = typeof default_height !== 'undefined' ? default_height : 400
-      iframe_height = Math.max(
-        document.body.scrollHeight,
-        document.documentElement.scrollHeight,
-        document.documentElement.clientHeight,
-        default_height
-      )
-      if (typeof iframe_obj !== 'undefined') {
-        iframe_obj.height = iframe_height
+$(document).ready(function () {
+  // 设置modal标题
+  var pagetitle = $('#pageTitle').val()
+  setModalTitle(pagetitle)
+})
+// 设置iframe高度
+$(window).ready(function () {
+  setParentIFrameHeight(parent.document.getElementById('modalIFrame'))
+}).resize(function () {
+  setParentIFrameHeight(parent.document.getElementById('modalIFrame'))
+})
+
+/**
+ * 在iframe页内让父框架中的iframe高度适应内容
+ * 在iframe页内调用此方法
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-20
+ * @param  {[type]}   iframe_obj [指定父框架中的iframe对象集合，如果未定义则设置父框架内所有iframe]
+ * @param  {[type]}   default_height [如果设置失败或适配高度过小时使用默认高度]
+ */
+function setParentIFrameHeight(iframe_obj, default_height) {
+  if (self.frameElement && self.frameElement.tagName == "IFRAME") {
+    default_height = typeof default_height !== 'undefined' ? default_height : 400
+    iframe_height = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.documentElement.clientHeight,
+      default_height
+    )
+    if (typeof iframe_obj !== 'undefined') {
+      iframe_obj.height = iframe_height
+    } else {
+      Array.from(parent.document.getElementsByTagName('iframe')).forEach(function (current, index, arr) {
+        current.height = iframe_height
+      })
+    }
+  }
+}
+
+/**
+ * 基于jquery、bootstrap：在iframe内调用此方法关闭modal弹层
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-11
+ * @return {[type]}   [description]
+ */
+function closeModalIFrame() {
+  layer.confirm(
+    '确定要关闭吗？<br>在本页所做的任何更改将不会被保存',
+    {
+      icon: 3,
+      title: '请确认'
+    },
+    function (index) {
+      if (window.parent.$('.modal').length) {
+        window.parent.$('.modal').modal('hide')
       } else {
-        Array.from(parent.document.getElementsByTagName('iframe')).forEach(function (current, index, arr) {
-          current.height = iframe_height
-        })
+        layer.msg('不在弹层中无法关闭')
       }
     }
-  }
+  )
+}
 
-  /**
-   * 基于jquery、bootstrap：在iframe内调用此方法关闭modal弹层
-   * @author aaron<chenqiang@h024.cn>
-   * @date   2019-12-11
-   * @return {[type]}   [description]
-   */
-  function closeModalIFrame() {
-    if (window.parent.$('.modal').length) {
-      window.parent.$('.modal').modal('hide')
-    } else {
-      layer.msg('不在父级框架中')
-    }
+/**
+ * 在iframe内设置父框架modal中显示的标题
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-03
+ * @param  {[type]}   title [description]
+ */
+function setModalTitle(title) {
+  if (window.parent.$('#autoModal').length) {
+    window.parent.$('#autoModal').find('#modalLabel').text(title)
   }
-
-  /**
-   * 在iframe内设置父框架modal中显示的标题
-   * @author aaron<chenqiang@h024.cn>
-   * @date   2020-03-03
-   * @param  {[type]}   title [description]
-   */
-  function setModalTitle(title) {
-    if (window.parent.$('#autoModal').length) {
-      window.parent.$('#autoModal').find('#modalLabel').text(title)
-    }
-  }
+}
 </script>

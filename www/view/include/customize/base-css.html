@@ -8,7 +8,7 @@
 
 html,body {
   /*设置字体*/
-  font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+  font-family: "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 /*过长文字自动显示省略号*/
 .ellipsis {
@@ -23,7 +23,14 @@ footer {
 .table th, .table td {
     vertical-align: middle!important;
 }
-.table th {
-    text-align: center;
+.layui-layer-btn .layui-layer-btn0 {
+    /*解决bootstrap的reboot让layer中的按钮文字变色问题*/
+    color: #fff!important;
+}
+.text-small {
+  font-size: 0.8rem;
+}
+.text-normal {
+  font-size: 1rem;
 }
 </style>

@@ -6,6 +6,7 @@ namespace app;
 use think\App;
 use think\exception\ValidateException;
 use think\Validate;
+use think\facade\Config;
 
 /**
  * 控制器基础类
@@ -47,7 +48,9 @@ abstract class BaseController
         $this->request = $this->app->request;
 
         // 加载附加配置文件
-        \think\facade\Config::load('extra/config', 'extra_config');
+        Config::load('extra/config', 'extra_config');
+        Config::load('extra/paginate', 'paginate'); // 分页相关配置
+        Config::load('extra/regex', 'regex'); // 常用正则表达式
 
         // 控制器初始化
         $this->initialize();

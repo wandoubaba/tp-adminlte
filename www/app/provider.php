@@ -7,5 +7,5 @@ return [
     'think\Request'          => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
     // 引入bootstrap分页样式
-    'think\Paginator'        => 'app\controller\common\BootstrapPaginator',
+    'think\Paginator'        => AthenaToolkits\Provider\BootstrapPaginator::class,
 ];

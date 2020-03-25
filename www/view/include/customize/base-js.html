@@ -5,16 +5,54 @@
  */
 
 /**
+ * Array类型的in_array扩展方法
+ * arr = [1, 2, 3]
+ * x = 1
+ * arr.in_array(x)
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-21
+ * @param  {[type]}   element [description]
+ * @return {[type]}           [description]
+ */
+Array.prototype.in_array = function (element) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == element) {
+      return true
+    }
+  }
+  return false
+} 
+
+
+/**
+ * 默认所有页面加载后都需要执行的动作
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-08
+ * @param  {String}   ) {               $('[data-toggle [description]
+ * @return {[type]}     [description]
+ */
+$(() => {
+  /**
+   * 让页面中所有带data-toggle="tooltip"的组件生效
+   * 实现bootstrap的tooltip提示
+   * @type {String}
+   */
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+/**
  * 前端执行页面跳转
  * @author aaron<chenqiang@h024.cn>
  * @date   2019-12-16
+ * @date   2020-03-10 显示layer的loading
  * @param  {[type]}   url 要跳转到的url，绝对或相对
- * @param  {[type]}   top 布尔值，默认为false，为true时表示执行顶组框架跳转
+ * @param  {[type]}   isTop 布尔值，默认为false，为true时表示执行顶组框架跳转
  * @return {[type]}       无返回值
  */
-function jump(url, is_top) {
-  is_top = typeof is_top !== 'undefined' ? Boolean(is_top) : false
-  if (is_top) {
+function jump(url, isTop) {
+  isTop = typeof isTop !== 'undefined' ? Boolean(isTop) : false
+  // var index = layerLoad()
+  if (isTop) {
     top.location.href = url
   } else {
     location.href = url
@@ -22,15 +60,39 @@ function jump(url, is_top) {
 }
 
 /**
- * 新端刷新页面，可以指定刷新父页
+ * 调用layer的confirm方法实现跳转前提示
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-10
+ * @param  {[type]}   confirmJump [确认提示语]
+ * @param  {[type]}   url          [确认后要跳转到的url]
+ * @return {[type]}                [description]
+ */
+function confirmJump(confirmJump, url) {
+  layer.confirm(
+    confirmJump,
+    {
+      icon: 3,
+      title: '请确认'
+    },
+    (i) => {
+      jump(url)
+      // 都已经跳转走了，就不用再做layer.close了
+    }
+  )
+}
+
+/**
+ * 前端刷新页面，可以指定刷新目标为父框架页
  * @author aaron<chenqiang@h024.cn>
  * @date   2019-12-16
- * @param  {[type]}   parent 布尔值，默认为true，即刷新父页
+ * @date   2020-03-10 显示layer的loading
+ * @param  {[type]}   isParent 布尔值，默认为true，即刷新父页
  * @return {[type]}          无返回值
  */
-function refresh(is_parent) {
-  is_parent = typeof is_parent !== 'undefined' ? Boolean(is_parent) : true
-  if (is_parent) {
+function refresh(isParent) {
+  isParent = typeof isParent !== 'undefined' ? Boolean(isParent) : true
+  var index = layerLoad()
+  if (isParent) {
     parent.location.reload()
   } else {
     location.reload()
@@ -38,59 +100,543 @@ function refresh(is_parent) {
 }
 
 /**
- * 基于axios：向后台提交ajax请求（axios）并在成功后跳至另一页
+ * 根据传递参数和页面相关配件的当前值组织出添加/修改/删除等网址
  * @author aaron<chenqiang@h024.cn>
- * @date   2019-12-02
- * @param  {[type]}   action_url  [请求的url]
- * @param  {[type]}   data        [传递的参数]
- * @param  {[type]}   callback    [请求成功且取得正确的数据后需要执行的操作，可以是匿名函数function () {}]
- * @param  {[type]}   hold_second [layer提示框的停留时间单位秒]
- * @return {[type]}               [description]
+ * @date   2020-03-15
+ * @param  {[type]}   url          [基本不带任何参数的网址]
+ * @param  {[type]}   payload      [可选]
+ * payload结构：
+ * {
+ *   id: [string|int],  // 可选，默认空，修改/删除时带id，新增时不带id
+ *   withKeyBind: [bool]  // 可选，默认true，为ture时会在url中带上有data-keybind属性的控件的当前值
+ * }
+ * @return {[type]}                [返回组织后的url]
  */
-function ajaxPost(action_url, data, callback, hold_second) {
-  // hold_second如果不传则默认为3
-  hold_second = typeof hold_second !== 'undefined' ? hold_second : 3
-  axios.post(
-    action_url,
-    data
-  ).then(function (response) {
-    let res = response.data
-    // console.log(response)
-    if (res.status) {
-      layer.msg(res.result, {
-        icon: 6,
-        time: hold_second * 1000, //3秒关闭（如果不配置，默认是3秒）
-        shade: 0.5
-      }, function () {
-        // 如果未定义callback则直接刷新父页
-        if (typeof callback !== 'undefined') {
-          callback()
-        } else {
-          refresh()
+function queryUrl(url, payload) {
+  payload = typeof payload !== 'undefined' ? payload : {}
+  if (!('withKeyBind' in payload)) {
+    payload.withKeyBind = true
+  }
+  // 如果传了id，就无视a参数，如果未传id，就去获取a参数
+  if ('id' in payload) {
+    url += '?id=' + payload.id
+  } else {
+    // 只有未传入id时，withKeyBind属性才生效
+    if (payload.withKeyBind) {
+      let q = new Array()
+      console.log($('[data-keybind]').length)
+      $('[data-keybind]').each(function () {
+        if ($(this).val() != '' && $(this).val() != null) {
+          q.push($(this).attr('data-keybind') + '=' + encodeURI($(this).val()))
         }
       })
-    } else {
-      layer.msg(res.result, {
-        icon: 5,
-        time: hold_second * 1000,
-        shade: 0.5
-      })
+      let qstr = q.join('&')
+      if (qstr != '') {
+        url += '?' + qstr
+      }
     }
-  }).catch(function (error) {
-    console.log(error)
+  }
+  return url
+}
+
+/**
+ * 基于axios：向后台提交ajax请求（delete）并在成功后跳至另一页
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-09
+ * @date   2020-03-10 显示layer的loading
+ * @param  {[type]}   actionUrl  [带参数的url]
+ * @param  {[type]}   targetName  [操作对象名称，会显示在提示语中]
+ * @param  {[type]}   holdSecond [提示停留时间，默认3]
+ * @return {[type]}               [操作成功后刷新页面，失败则什么都不做]
+ */
+function ajaxDelete(actionUrl, targetName, holdSecond) {
+  targetName = typeof targetName !== 'undefined' ? targetName : ''
+  layer.confirm(
+    '确定要删除数据 <span class="text-danger">' + targetName + '</span> 吗？',
+    {
+      icon: 3,
+      title: '删除确认'
+    },
+    (i) => {
+      holdSecond = typeof holdSecond !== 'undefined' ? holdSecond : 3
+      // 显示loading层
+      var index = layerLoad()
+      axios.delete(actionUrl)
+      .then((response) => {
+        let res = response.data
+        if (res.status) {
+          layerSuccess(
+            res.title || '删除成功',
+            () => { refresh() }
+          )
+        } else {
+          layerError(res.title || '删除失败')
+        }
+      })
+      .catch((error) => {
+        layerError(error.message)
+        console.log(error.message)
+      })
+      // layer.confirm在确定操作执行完成后需要进行手动关闭
+      layer.close(i)
+    }
+  )
+}
+
+/**
+ * 调axios的post方法并返回promise对象，需要自已完成.then和.catch
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-10
+ * @param  {[type]}   actionUrl         [接口url]
+ * @param  {[type]}   requestData       [传入数据]
+ * @return {[type]}                     [description]
+ */
+function ajaxPostPromise(actionUrl, requestData) {
+  return axios.post(
+    actionUrl,
+    requestData
+  )
+}
+
+/**
+ * 调axios的get方法并返回promise对象，要自己完成.then和.catch
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-17
+ * @param  {[type]}   actionUrl   [接口url]
+ * @param  {[type]}   requestData [传入数据]
+ * @return {[type]}               [description]
+ */
+function ajaxGetPromise(actionUrl, requestData) {
+  return axios.get(
+    actionUrl, {
+      params: requestData
+    }
+  )
+}
+
+/**
+ * 基于axios：向后台提交ajax请求（post）并在成功后跳至另一页
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2019-12-02
+ * @date   2020-03-10 显示layer的loading
+ * @param  {[type]}   actionUrl  [请求的url]
+ * @param  {[type]}   requestData        [传递的参数]
+ * @param  {[type]}   holdSecond [layer提示框的停留时间单位秒]
+ * @return {[type]}               [description]
+ */
+function ajaxPost(actionUrl, requestData, holdSecond) {
+  // holdSecond如果不传则默认为3
+  holdSecond = typeof holdSecond !== 'undefined' ? holdSecond : 3
+  // 显示loading层
+  var index = layerLoad()
+  axios.post(
+    actionUrl,
+    requestData
+  ).then((response) => {
+    let res = response.data
+    if (res.status) {
+      layerSuccess(
+        res.title,
+        () => { refresh() }
+      )
+    } else {
+      layerError(res.title)
+    }
+  }).catch((error) => {
+    layerError(error.message)
+    console.log(error.message)
   })
+}
+
+/**
+ * 当需要显示loading时，直接调layerLoad()就行了
+ * 可以带color参数，默认是'#000'黑色
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-17
+ * @param  {[type]}   color [rgb颜色]
+ * @param  {[type]}   shade [透明度]
+ * @param  {[type]}   type  [风格0,1,2]
+ * @return {[type]}         [返回loading层的index]
+ */
+function layerLoad(color, shade, type) {
+  // 默认背景色
+  color = typeof color !== 'undefined' ? color : '#000'
+  // 默认透明度0.5
+  shade = typeof shade !== 'undefined' ? shade : 0.5
+  // 默认风格是1粗条圆圈，2是细条圆圈，0是彩色小点
+  type = [0, 1, 2].includes(parseInt(type)) ? type : 1
+  return layer.load(
+    type,
+    {
+      shade: [shade, color] //0.5透明度的背景色
+    }
+  )
+}
+
+/**
+ * 当需要成功提示时，直接调用layerSuccess(message)就行了
+ * 第二个参数是callback
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-17
+ * @param  {[type]}   message    [文字信息]
+ * @param  {Function} callback   [回调函数]
+ * @param  {[type]}   holdSecond [停留时间，默认3秒]
+ * @return {[type]}              [description]
+ */
+function layerSuccess(message, callback, holdSecond) {
+  holdSecond = typeof holdSecond !== 'undefined' ? holdSecond : 3
+  message = message || '操作成功'
+  layer.closeAll('loading')
+  layer.msg(
+    message,
+    {
+      icon: 6,
+      shade: 0.5,
+      time: holdSecond * 1000
+    },
+    (index) => {
+      if (typeof callback !== 'undefined') {
+        callback.call(this)
+      }
+      layer.close(index)
+    }
+  )
+}
+
+/**
+ * 当需要显示带确定按钮的成功提示时，直接调layerSuccessWait(message)就行了
+ * 自动关闭loading
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-20
+ * @param  {[type]}   title    [标题]
+ * @param  {[type]}   message  [信息，可以是数组]
+ * @param  {Function} callback [回调函数]
+ * @return {[type]}            [description]
+ */
+function layerSuccessWait(title, content, callback) {
+  switch (typeof content) {
+    case 'string':
+      message = content
+      break
+    case 'undefined':
+      // 如果只传了一个字符串或什么也没传
+      // 就让message变为提示语，让title为空（不显示标题栏了）
+      message = title || '操作完成'
+      title = ''
+      break
+    default:
+      if (isArray(content)) {
+        message = ''
+        // 传入的是数组，需要转为文字
+        for (let i = 0, len = content.length; i < len; i++) {
+          message += content[i]
+          if (i < len - 1) {
+            message += '<br>'
+          }
+        }
+      }
+      break
+  }
+  message = message || '操作完成'
+  // 这时message应该有值了，title不一定，不管它
+  // title = title || '操作失败'
+  layer.closeAll('loading')
+  layer.alert(
+    message,
+    {
+      area: 'auto',
+      maxWidth: 600,  // 最大宽度
+      icon: 6,
+      shade: 0.5,
+      title: title,  // 无标题栏
+      closeBtn: 0 // 无右上角关闭按钮
+    },
+    (index) => {
+      if (typeof callback !== 'undefined') {
+        callback.call(this)
+      }
+      layer.close(index)
+    }
+  )
+}
+
+/**
+ * 当需要错误提示时，直接调layerError(message)就行了
+ * 自动关闭loading
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-17
+ * @param  {[type]}   message    [文字信息]
+ * @param  {[type]}   callback   [回调函数]
+ * @param  {[type]}   holdSecond [停留时间，默认3秒]
+ * @return {[type]}              [description]
+ */
+function layerError(message, callback, holdSecond) {
+  holdSecond = typeof holdSecond !== 'undefined' ? holdSecond : 3
+  message = message || '操作失败了'
+  layer.closeAll('loading')
+  layer.msg(
+    message,
+    {
+      icon: 5,
+      shade: 0.5,
+      time: holdSecond * 1000
+    },
+    (index) => {
+      if (typeof callback !== 'undefined') {
+        callback.call(this)
+      }
+      layer.close(index)
+    }
+  )
+}
+
+/**
+ * 当需要显示带确定按钮的错误提示时，直接调layerErrorWait(message)就行了
+ * 自动关闭loading
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-20
+ * @param  {[type]}   title    [提示标题]
+ * @param  {[type]}   content  [内容，可以是字符串，可以是数组]
+ * @param  {Function} callback [确定后的回调函数]
+ * @return {[type]}            [description]
+ */
+function layerErrorWait(title, content, callback) {
+  switch (typeof content) {
+    case 'string':
+      message = content
+      break
+    case 'undefined':
+      // 如果只传了一个字符串或什么也没传
+      // 就让message变为提示语，让title为空（不显示标题栏了）
+      message = title || '操作失败了'
+      title = ''
+      break
+    default:
+      if (isArray(content)) {
+        message = ''
+        // 传入的是数组，需要转为文字
+        for (let i = 0, len = content.length; i < len; i++) {
+          message += content[i]
+          if (i < len - 1) {
+            message += '<br>'
+          }
+        }
+      }
+      break
+  }
+  message = message || '操作失败了'
+  // 这时message应该有值了，title不一定，不管它
+  // title = title || '操作失败'
+  layer.closeAll('loading')
+  layer.alert(
+    message,
+    {
+      area: 'auto',
+      maxWidth: 600,  // 最大宽度
+      icon: 5,
+      shade: 0.5,
+      title: title,  // 无标题栏
+      closeBtn: 0 // 无右上角关闭按钮
+    },
+    (index) => {
+      if (typeof callback !== 'undefined') {
+        callback.call(this)
+      }
+      layer.close(index)
+    }
+  )
+}
+
+
+/**
+ * 根据传入的dataList向target($(select))中填入option
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-17
+ * @date   2020-03-18 增加otherAttrFields字段
+ * @param  {[type]}   target             [jquery的$(select)对象]
+ * @param  {[type]}   dataList           [数据数组]
+ * @param  {[type]}   valueField         [option的value属性填入的字段]
+ * @param  {[type]}   textField          [option的text中填入的字段]
+ * @param  {[type]}   options            [对象类型的“其他配置”，包含titleField, firstText, defaultValue等]
+ * @param  {[type]}   otherAttrFields    [数组类型的“其他字段名”，会以[data-字段名="value"]附加到option属性中]
+ * @return {[type]}              [description]
+ */
+function fillSelectOptions(target, dataList, valueField, textField, options, otherAttrFields) {
+  if (target.prop('tagName') !== 'SELECT') {
+    console.log(arguments.callee.name, target.prop('tagName') + ' is not a SELECT element.')
+    return
+  }
+  // 清空select
+  target.html('')
+  if (valueField && textField) {
+    if ('firstText' in options) {
+      let option = $('<option></option>')
+      option.text(options.firstText)
+        .attr('value', '')
+        .appendTo(target)
+    }
+    for (let i = 0, iLen = dataList.length; i < iLen; i++) {
+      let option = $('<option></option>')
+      // 获取text内容
+      let text = dataList[i][textField]
+      // 判断text内容是否过长，过长时加省略号
+      if (text.length > 20) {
+        text = text.substring(0, 20) + '...'
+      }
+      // 对option的value和text赋值
+      option.attr('value', dataList[i][valueField])
+        .text(text)
+      // 判断是否需要向option中添加其他字段参数
+      if (typeof otherAttrFields !== 'undefined' && isArray(otherAttrFields)) {
+        // 遍历otherAttrFields数组
+        for (let j = 0, jLen = otherAttrFields.length; j < jLen; j++) {
+          if (otherAttrFields[j] in dataList[i]) {
+            // 其他字段参数用[data-字段名="value"]的方式呈现
+            option.attr('data-' + otherAttrFields[j], dataList[i][otherAttrFields[j]])
+          }
+        }
+      }
+      // 向option赋值title属性
+      if ('titleField' in options) {
+        option.attr('title', dataList[i][options.titleField])
+      } else {
+        option.attr('title', dataList[i][valueField])
+      }
+      // 如果传入defaultValue，则让对应的option带有selected属性
+      if ('defaultValue' in options) {
+        if (dataList[i][valueField] == options.defaultValue) {
+          option.attr('selected')
+        }
+      }
+      // 把option附加到select
+      option.appendTo(target)
+    }
+  } else {
+    // 如果由于传参错误导致失败，则给出提示
+    let option = $('<option></option>')
+    option.attr('value', '')
+      .text('脚本参数有误导致数据填充失败')
+      .appendTo(target)
+  }
+}
+
+/**
+ * 判断传入参数是否为数组
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-18
+ * @param  {[type]}   o [description]
+ * @return {Boolean}    返回true or false
+ */
+function isArray(o){
+  return Object.prototype.toString.call(o) == '[object Array]';
+}
+
+/**
+ * 向带有data-varbind属性的元素中填入指定值
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-18
+ * @date   2020-03-21 第2个参数从isHtml改为type
+ * @param  {[type]}   data   对象key: value
+ * @param  {Boolean}  type   html, text, val（默认为text）
+ * @return {[type]}          [description]
+ */
+function fillVar(data, type) {
+  let arr = new Array('html', 'text', 'val')
+  type = typeof type !== 'undefinde' ? type : 'text'
+  if (typeof type == 'undefined') {
+    type = 'text'
+  } else if (!arr.in_array(type.toLowerCase())) {
+    type = 'text'
+  }
+  for (let key in data) {
+    let target = $('[data-varbind="' + key + '"]')
+    switch (type.toLowerCase()) {
+      case 'html':
+        target.html(data[key])
+        break
+      case 'val':
+        target.val(data[key])
+        break
+      default:
+        target.text(data[key])
+        break
+    }
+  }
+}
+
+/**
+ * 另一种向data-varbind标签填入值的方式，传参方法为：
+ * 任意多个参数，每个参数都是{key: k, value: v, type: t}，其中value和type都可以省略
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-21
+ * @return {[type]}   [description]
+ */
+function fillPageVar() {
+  for(let i = 0, len = arguments.length; i < len; i++) {
+    let key = '', value = '', type = 'text'
+    if ('key' in arguments[i]) {
+      key = arguments[i].key
+    }
+    if ('value' in arguments[i]) {
+      value = arguments[i].value
+    }
+    let typeArr = new Array('html', 'text', 'val')
+    if (('type' in arguments[i]) && typeArr.in_array(arguments[i].type.toLowerCase())) {
+      type = arguments[i].type.toLowerCase()
+    }
+    if (key != '') {
+      let target = $('[data-varbind="' + key + '"]')
+      switch (type) {
+        case 'html':
+          target.html(value)
+          break
+        case 'val':
+          target.val(value)
+          break
+        default:
+          target.text(value)
+          break
+      }
+    }
+  }
+}
+
+/**
+ * 对目标元素中的值做行过滤，过滤后内容回填，返回行数组
+ * 过滤内容：
+ * 去除空白行，去除每行首尾空格，去除重复行
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-18
+ * @param  {[type]}   targetElement [目标元素如$('textarea')]
+ * @return {[type]}                 [返回行数组]
+ */
+function filterElementLines(targetElement) {
+  let reg = /\n(\n)*( )*(\n)*\n/g
+  let val = targetElement.val().replace(reg, '\n') // 过滤空白行之后的字符串
+  let arr = val.split(/[(\r\n)\r\n]+/)  // 字符串按行转数组
+  // 用新数组实现旧数组去重
+  let newArr = new Array()
+  for (let i = 0, len = arr.length; i < len; i++) {
+    let item = arr[i].trim()
+    if (item != '' && newArr.indexOf(item) < 0) {
+      newArr.push(item)
+    }
+  }
+  val = newArr.join('\n') // 新数组按行转字符串
+  targetElement.val(val) // 回填到广西框
+  return newArr
 }
 
 /**
  * 基于jquery, bootstrap：创建并显示bootstrap模态框，id为autoModal
  * @author aaron<chenqiang@h024.cn>
  * @date   2019-12-11
- * @param  {[type]}   title              设置模态框显示的标题
+ * @data   2020-03-15 删除title参数（在iframe内页要实现动态设定，modal-js实现）
+ * @data   2020-03-15 删除附加高度参数（在iframe内页要实现动态设定，modal-js实现）
  * @param  {[type]}   url                设置模态框要加载的url
- * @param  {[type]}   iframe_height_plus 让iframe高度在识别基础上增加多少
  * @return {[type]}                      [description]
  */
-function showModalIFrame(url, iframe_height_plus) {
+function showModalIFrame(url) {
   if ($('#autoModal').length > 0) {
     var modal_obj = $('#autoModal')
     modal_obj.empty()
@@ -117,7 +663,7 @@ function showModalIFrame(url, iframe_height_plus) {
   modal_title.attr({
     'id': 'modalLabel'
   }).addClass('modal-title')
-  //.text(title)
+  .text('子窗口')
   .appendTo(modal_header)
   // 右上角关闭按钮节点，appendTo(modal_header)
   var close_button = $('<button></button>')

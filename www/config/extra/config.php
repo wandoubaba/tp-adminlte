@@ -20,5 +20,7 @@ return [
     'beian_gongan' => env('extra_config.beian_gongan', ''),
     // 公安备案号
     'beian_gongan_url' => env('extra_config.beian_gongan_url', ''),
+    // 默认字符编码
+    'default_encoding' => env('extra_config.default_encoding', 'UTF-8'),
 
 ];
