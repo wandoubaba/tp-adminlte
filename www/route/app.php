@@ -16,6 +16,9 @@ Route::get('think', function () {
 
 Route::get('hello/:name', 'index/hello');
 
+// 测试页 <domain>/test
+Route::get('test', 'test/index');
+
 // 首页 <domain>
 Route::rule('/', function () {
     // 自动跳转到登录页
@@ -25,7 +28,7 @@ Route::rule('/', function () {
 /**
  * 虚拟分组，强制所有url必须以.html后缀结尾
  */
-Route::group(function () {
+Route::group('/', function () {
     // 登录页 <domain>/login.html
     Route::rule('login', 'sign/login');
     // 注册页 <domain>/register.html

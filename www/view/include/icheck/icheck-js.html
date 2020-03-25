@@ -1,1 +1,22 @@
 <script src="/static/lib/icheck/1.0.2/icheck.min.js"></script>
+<!-- 本文件需要在jquery之后引入，自动初始化 -->
+<script>
+/**
+ * iCheck控件样式初始化
+ * @author aaron<chenqiang@h024.cn>
+ * @date   2020-03-02
+ * @data   2020-03-13 添加radio初始化样式
+ * @return {[type]}   [description]
+ */
+function iCheckInit() {
+  $('input').iCheck({
+    checkboxClass:'icheckbox_square-blue',
+    radioClass: 'iradio_square-blue'
+  })
+}
+
+$(function () {
+  // 初始化icheck复选框
+  iCheckInit()
+})
+</script>

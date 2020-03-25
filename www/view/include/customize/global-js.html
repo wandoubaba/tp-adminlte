@@ -1,0 +1,37 @@
+<script>
+/**
+ * ======== BEGIN 全局变量 ========
+ * 定义这些东西是为避免在html中大量使用{:url("...")}带来的引号交替嵌套问题
+ * 这个文件与base-js分离
+ * 在<head></head>中引入global-js，在</body>之前引入base-js
+ * 这个文件里的内容应该和route/app.php内的条目大体相同
+ */
+
+/**
+ * 接口url
+ * 这些url返回json，用于ajax请求
+ * @type {Object}
+ */
+window.globalApiUrl = {
+}
+
+/**
+ * 页面url
+ * 这些url直接返回页面，用于跳转或弹窗
+ * @type {Object}
+ */
+window.globalPageUrl = {
+}
+
+/**
+ * 其他全局常量
+ * @type {Object}
+ */
+window.globalConst = {
+  // 完整的日期时间格式（带毫秒）
+  datetimeFullFormat: 'YYYY-MM-DD HH:mm:ss.SSS'
+}
+/**
+ * ======== END 全局变量 ========
+ */    
+</script>

@@ -1,30 +1,18 @@
 <!-- 
-  icheck控件功能初始化js，供所有包含icheck控制的页面引入
+  icheck控件功能初始化js
   依赖jQuery、iCheck
+  需要在首列有复选框的列表页中引用
 -->
 <script>
 $(function () {
-  // 初始化icheck复选框
-  iCheckInit()
   // 表格标题行复选框实现全选
   iCheckTableCheckAll()
   // 表格行前的复选框被选中时给表格行添加样式
   iCheckTableLineStyle()
-  // 当表格行内部被点击时切换表格行前的复选框的选中状态
+  // 当表格行内部被点击时切换表格行前的复选框的选中状态，需要此功能就取消注释
   // iCheckTableLineChecker()
 })
 
-/**
- * iCheck控件样式初始化
- * @author aaron<chenqiang@h024.cn>
- * @date   2020-03-02
- * @return {[type]}   [description]
- */
-function iCheckInit() {
-  $('input').iCheck({
-    checkboxClass:'icheckbox_square-blue'
-  })
-}
 
 /**
  * 在包含iCheck控件的表格中实现#checkAll的全选/全不选
