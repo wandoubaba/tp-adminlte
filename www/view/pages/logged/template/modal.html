@@ -15,6 +15,8 @@
   {include file="include/font-awesome/font-awesome-free-css" /}
   <!-- 加载中…… -->
   {include file="include/customize/preloading-js" /}
+  <!-- 全局设置 -->
+  {include file="include/customize/global-js" /}
   <!-- Ionicons -->
   {include file="include/ionicons/ionicons4-css" /}
   <!-- Theme style -->
@@ -74,28 +76,20 @@
 {include file="include/jquery/jquery-slim-js" /}
 <!-- jquery-validate -->
 {include file="include/jquery-validate/jquery-validate-js" /}
+<!-- Bootstrap 4 -->
+{include file="include/bootstrap/bootstrap4-js" /}
 <!-- AdminLTE App -->
 {include file="include/adminlte/adminlte3-js" /}
 <!-- axios -->
 {include file="include/axios/axios-js" /}
 <!-- layer -->
 {include file="include/layer/layer-js" /}
+<!-- jquery.serializeJSON -->
+{include file="include/jquery-serializejson/jquery-serializejson-js" /}
 <!-- common js -->
 {include file="include/customize/base-js" /}
 <!-- modal js -->
 {include file="include/customize/modal-js" /}
-<script type="text/javascript">
-  $(document).ready(function () {
-    // 设置modal标题
-    var pagetitle = $('#pageTitle').val()
-    setModalTitle(pagetitle)
-  })
-  $(window).ready(function () {
-    setParentIFrameHeight(parent.document.getElementById('modalIFrame'))
-  }).resize(function () {
-    setParentIFrameHeight(parent.document.getElementById('modalIFrame'))
-  })
-</script>
 <!-- page js -->
 {block name="js"}{/block}
 </body>
