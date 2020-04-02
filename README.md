@@ -15,6 +15,8 @@
 * iCheck版本： [1.0.2](https://github.com/fronteed/icheck)
 * jquery-validation版本： [1.19.1](https://github.com/jquery-validation/jquery-validation)
 * ionicons版本： [4.6.3](https://github.com/ionic-team/ionicons/tree/4.x)
+* clamp版本： [0.5.1](https://github.com/xavi160/Clamp.js)
+* jquery.serializeJSON版本 [2.9.0](https://github.com/marioizquierdo/jquery.serializeJSON)
 
 ---
 # 项目简介
