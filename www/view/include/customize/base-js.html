@@ -2,6 +2,7 @@
 /**
  * 本站自定义js方法
  * 依赖jquery, axios, layer, bootstrap等
+ * 更新时间：2020-04-02
  */
 
 /**
@@ -51,11 +52,19 @@ $(() => {
  */
 function jump(url, isTop) {
   isTop = typeof isTop !== 'undefined' ? Boolean(isTop) : false
-  // var index = layerLoad()
-  if (isTop) {
-    top.location.href = url
-  } else {
-    location.href = url
+  var index = layerLoad()
+  try {
+    if (isTop) {
+      top.location.href = url
+    } else {
+      location.href = url
+    }
+  }
+  catch(err) {
+    layerError(err.message)
+  }
+  finally {
+    layer.closeAll('loading')
   }
 }
 

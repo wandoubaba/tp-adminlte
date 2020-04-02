@@ -3,7 +3,7 @@
     <!-- Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library -->
     <li class="nav-item">
-      <a href="{:url('logged/index')}" class="nav-link">
+      <a href="javascript:void(0)" class="nav-link" data-link="{:url('logged/index')}" onclick="jump(this.getAttribute('data-link'))">
         <i class="nav-icon fas fa-fw fa-home"></i>
         <p>
           控制台首页
@@ -21,13 +21,13 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="{:url('logged/blank')}" class="nav-link">
+          <a href="javascript:void(0)" class="nav-link" data-link="{:url('logged/blank')}" onclick="jump(this.getAttribute('data-link'))">
             <i class="far fa-circle nav-icon"></i>
             <p>空白面板</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="{:url('logged/table')}" class="nav-link">
+          <a href="javascript:void(0)" class="nav-link" data-link="{:url('logged/table')}" onclick="jump(this.getAttribute('data-link'))">
             <i class="far fa-circle nav-icon"></i>
             <p>
               表格示例
@@ -47,7 +47,7 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a href="#" class="nav-link" onclick="showModalIFrame('{:url("/logged/account/change-password")}')">
+          <a href="javascript:void(0)" class="nav-link" onclick="showModalIFrame('{:url("/logged/account/change-password")}')">
             <i class="far fa-circle nav-icon"></i>
             <p>修改密码</p>
           </a>
@@ -55,7 +55,7 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a href="{:url('/login')}" class="nav-link">
+      <a href="javascript:void(0)" class="nav-link" data-link="{:url('/login')}" onclick="jump(this.getAttribute('data-link'))">
         <i class="nav-icon fas fa-fw fa-sign-out-alt"></i>
         <p>退出登录</p>
       </a>

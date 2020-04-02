@@ -1,8 +1,11 @@
 <!--
-  控制台页面公共js，被所有控制台页面引入
-  依赖jQuery
 -->
 <script type="text/javascript">
+/**
+ * 控制台页面公共js，被所有控制台页面引入
+ * 依赖jQuery、
+ * 更新时间：2020-04-02
+ */
 
 $(function () {
   // 导航菜单定位到当前页
@@ -17,8 +20,10 @@ $(function () {
  */
 function currentMenu() {
   let pathname = window.location.pathname
-  $(".main-sidebar a.nav-link").each(function(){
-    if ($(this).attr('href') == pathname) {
+  $(".main-sidebar a.nav-link").each(function () {
+    if ($(this).attr('href') == pathname || $(this).attr('data-link') == pathname) {
+      // 当前页面的pathname与导航菜单项中的href或data-link属性相同时
+      // 展开当前菜单目录并激活此菜单
       $(this).addClass('active').
         parents('.has-treeview').addClass('menu-open').
         find('a.nav-link:first').addClass('active')

@@ -4,6 +4,7 @@
  *   网站自定义样式
  *   Author: aaron<chenqiang@h024.cn>
  *   License: Open source - MIT <http://opensource.org/licenses/MIT>
+ *   更新时间：2020-04-02
  */
 
 html,body {
@@ -11,26 +12,31 @@ html,body {
   font-family: "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
 }
 /*过长文字自动显示省略号*/
-.ellipsis {
+/*bootstrap中的text-truncat类*/
+/*.ellipsis {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-}
+}*/
 footer {
-    /*页脚文字设置为小字号*/
-    font-size: 14px;
+  /*页脚文字设置为小字号*/
+  font-size: 14px;
 }
 .table th, .table td {
-    vertical-align: middle!important;
+  vertical-align: middle!important;
 }
 .layui-layer-btn .layui-layer-btn0 {
-    /*解决bootstrap的reboot让layer中的按钮文字变色问题*/
-    color: #fff!important;
+  /*解决bootstrap的reboot让layer中的按钮文字变色问题*/
+  color: #fff!important;
 }
 .text-small {
   font-size: 0.8rem;
 }
 .text-normal {
   font-size: 1rem;
+}
+/*让bootstrap的progress背景灰色更深*/
+.progress {
+  background-color: #C9CCCE!important;
 }
 </style>
