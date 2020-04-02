@@ -1,0 +1,27 @@
+<!-- clamp.js本身不需要jquery支持 -->
+<script src="https://cdn.bootcss.com/Clamp.js/0.5.1/clamp.min.js"></script>
+<!-- 但是后面为本项目自定义的调用方法，需要事先引入jquery -->
+<script>
+  $(function () {
+    // class="truncat"，显示1行加省略号
+    $('.truncat,.truncat-1').each(function () {
+      $clamp(this, {clamp: 1})
+    })
+    // class="truncat-2"表示显示2行加省略号
+    $('.truncat-2').each(function () {
+      $clamp(this, {clamp: 2})
+    })
+    // class="truncat-3"表示显示3行加省略号
+    $('.truncat-3').each(function () {
+      $clamp(this, {clamp: 3})
+    })
+    // class="truncat-4"表示显示4行加省略号
+    $('.truncat-4').each(function () {
+      $clamp(this, {clamp: 4})
+    })
+    // class="truncat-5"表示显示5行加省略号
+    $('.truncat-5').each(function () {
+      $clamp(this, {clamp: 5})
+    })
+  })
+</script>
