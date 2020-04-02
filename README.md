@@ -5,7 +5,7 @@
 ## 感谢所有被引入项目的开发者  
  主要引入项目：
 * ThinkPHP版本： [6.0.0](http://www.thinkphp.cn/)  
-* AdminLTE版本： [3.0.2](https://github.com/ColorlibHQ/AdminLTE)  
+* AdminLTE版本： [3.0.4](https://github.com/ColorlibHQ/AdminLTE)  
 * Bootstrap版本： [4.4.1](https://github.com/twbs/bootstrap)
 * axios版本： [0.19.2](https://github.com/axios/axios)
 * JQuery版本： [3.4.1](https://github.com/jquery/jquery)
