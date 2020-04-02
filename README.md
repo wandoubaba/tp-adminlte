@@ -9,7 +9,7 @@
 * Bootstrap版本： [4.4.1](https://github.com/twbs/bootstrap)
 * axios版本： [0.19.2](https://github.com/axios/axios)
 * JQuery版本： [3.4.1](https://github.com/jquery/jquery)
-* Font-Awesome版本： [5.12.1](https://github.com/FortAwesome/Font-Awesome)
+* Font-Awesome版本： [5.13.0](https://github.com/FortAwesome/Font-Awesome)
 * ionicons版本： [4.6.3](https://github.com/ionic-team/ionicons/tree/4.x)
 * layer版本： [3.1.1](https://github.com/sentsin/layer)
 * iCheck版本： [1.0.2](https://github.com/fronteed/icheck)
