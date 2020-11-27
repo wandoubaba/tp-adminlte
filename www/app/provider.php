@@ -6,6 +6,12 @@ use app\Request;
 return [
     'think\Request'          => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
-    // 引入bootstrap分页样式
-    'think\Paginator'        => AthenaToolkits\Provider\BootstrapPaginator::class,
+    // 启用bootstrap分页样式（需要前端引用对应的样式库）
+    'think\Paginator'        => \bigDream\thinkPaginatorDriver\Bootstrap4::class,
+    // 启用layui分页样式（需要前端引用对应的样式库）
+    // 'think\Paginator'        => \bigDream\thinkPaginatorDriver\Layui::class,
+    // 启用AmazeUI分页样式（需要前端引用对应的样式库）
+    // 'think\Paginator'        => \bigDream\thinkPaginatorDriver\AmazeUI::class,
+    // 启用Foundation分页样式（需要前端引用对应的样式库）
+    // 'think\Paginator'        => \bigDream\thinkPaginatorDriver\Foundation::class,
 ];

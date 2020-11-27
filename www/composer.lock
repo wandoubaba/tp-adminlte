@@ -4,8 +4,58 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b129548bb372dfb395fcb114b7f7071",
+    "content-hash": "4305fa8a8bb5fe6aab312a23270cf60d",
     "packages": [
+        {
+            "name": "big-dream/think-paginator-driver",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/big-dream/think-paginator-driver.git",
+                "reference": "d3f64505b0c56e33e47744b956762703b933aa64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/big-dream/think-paginator-driver/zipball/d3f64505b0c56e33e47744b956762703b933aa64",
+                "reference": "d3f64505b0c56e33e47744b956762703b933aa64",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "topthink/think-orm": "2.0.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "bigDream\\thinkPaginatorDriver\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jwj",
+                    "email": "jwjbjg@gmail.com",
+                    "homepage": "https://www.ll00.cn"
+                }
+            ],
+            "description": "ThinkPHP6分页驱动",
+            "keywords": [
+                "driver",
+                "paginator",
+                "thinkphp"
+            ],
+            "time": "2019-11-08T06:26:22+00:00"
+        },
         {
             "name": "league/flysystem",
             "version": "1.1.3",
